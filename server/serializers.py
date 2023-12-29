@@ -14,3 +14,4 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = User
         # fields = '__all__'
         exclude = ['password']
+        
