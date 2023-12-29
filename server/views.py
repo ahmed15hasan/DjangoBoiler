@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from .serializers import UserProfileSerializer
 
 
 
@@ -41,4 +42,12 @@ def signup(request):
 def test_token(request):
     return Response("passed for {}".format(request.user.email))
 
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])  # Adjust authentication as needed
+@permission_classes([IsAuthenticated])  # Require authentication to access this view
+def view_profile(request):
+    user_profile = request.user  # Assuming UserProfile is related to User
+    serializer = UserProfileSerializer(user_profile)  # Use your UserProfile serializer
+    return Response(serializer.data)
  
