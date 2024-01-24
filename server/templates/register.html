@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Register</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+
+                            {% if messages %}
+                                <div class="container mt-4">
+                                    {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <form  method="POST" class="user"  action="{% url 'register_action' %}">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" name="first_name"  class="form-control form-control-user" id="exampleFirstName"
+                                            placeholder="First Name" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text"  name="last_name" class="form-control form-control-user" id="exampleLastName"
+                                            placeholder="Last Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="username" class="form-control form-control-user" id="exampleInputUsername"
+                                        placeholder="Username" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail"
+                                        placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" name="password1" class="form-control form-control-user"
+                                            id="exampleInputPassword" placeholder="Password" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" name="password2" class="form-control form-control-user"
+                                            id="exampleRepeatPassword" placeholder="Repeat Password" required>
+                                    </div>
+                                </div> 
+                                <button href="#" type="submit"  class="btn btn-primary btn-user btn-block" id="registerBtn">
+                                    Register Account
+                                </button>
+                                <hr>
+                             
+                            </form>
+                           
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+     
+    <!-- jQuery CDN (if not already included) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script> 
+
+        // $(document).ready(function () { 
+
+        //     $('#registerBtn').on('click', function (e) {
+        //         e.preventDefault(); // Prevent default form submission 
+
+        //         var username  = $('#exampleInputUsername').val();
+        //         var password  = $('#exampleInputPassword').val();
+        //         var repeatpwd  = $('#exampleRepeatPassword').val();
+        //         var email     = $('#exampleInputEmail').val();
+        //         var firstname = $('#exampleFirstName').val();
+        //         var lastname  = $('#exampleLastName').val();
+
+        //         if(password != repeatpwd) {
+        //             Swal.fire({
+        //                 title: 'Alert!',
+        //                 text: "Oops! It seems the passwords you've entered don't match with repeat password",
+        //                 icon: 'warning',
+        //                 showConfirmButton: true,
+        //                 confirmButtonText: 'OK'
+        //             });
+        //         }
+
+        //         // Make AJAX POST request to login API
+        //         $.ajax({
+        //             url: 'http://127.0.0.1:8000/signup', // Replace with your actual login endpoint
+        //             method: 'POST',
+        //             data: {
+        //                 username: username,
+        //                 password: password,
+        //                 email: email,
+        //                 firstname: firstname,
+        //                 lastname: lastname,
+        //             },
+        //             success: function (response) {
+        //                 // Handle successful login response
+
+        //                 var token = response.token;  
+        //                 localStorage.setItem('Authorization', token); 
+        //                 localStorage.setItem('User_Data', response.user); 
+
+        //                 Swal.fire({
+        //                 title: 'Alert!',
+        //                 text: 'Registration Successful.',
+        //                 icon: 'info',
+        //                 confirmButtonText: 'Okay'
+        //                 }).then((result) => {
+        //                     if (result.isConfirmed) {
+        //                         window.location.href = "index.html"; // Redirect to Home page
+        //                     }
+        //                 }); 
+
+        //                 // Redirect or perform actions based on the response
+        //             },
+        //             error: function (xhr, status, error) {
+                        
+        //                 if (xhr.responseJSON) {
+        //                     var errors = xhr.responseJSON;
+
+        //                     var errorMessage = "<b>Signup failed due to the following errors:</b><br>";
+        //                     for (var key in errors) {
+        //                         errorMessage += `<b>${key}:</b> ${errors[key][0]}<br>`; // Displaying the first error for each field
+        //                     }
+
+        //                     Swal.fire({
+        //                         title: 'Validation Error!',
+        //                         html: errorMessage,
+        //                         icon: 'error',
+        //                         confirmButtonText: 'Okay'
+        //                     });
+        //                 } else {
+        //                     // If there are other types of errors or the structure is unexpected
+        //                     // Show a general error message or perform other actions
+        //                 }
+        //             }
+        //         });
+
+                                  
+        //         // window.location.href = "login.html"; // Replace with your desired URL
+
+                
+        //     });
+        // });
+    </script>
+
+</body>
+
+</html>
