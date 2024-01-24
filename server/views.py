@@ -31,6 +31,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterUserForm
+from django.contrib.auth.hashers import check_password
+
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +79,7 @@ def register_action(request):
     if request.method == 'POST':     
         if form.is_valid():
             user = form.save()
-            user.set_password(request.POST.get('password')) 
+            user.set_password(form.cleaned_data['password1']) 
             user.is_active = True
             user.is_staff = True
             user.save()
@@ -135,14 +137,16 @@ def login_action(request):
             username = request.POST.get('username')
             password = request.POST.get('password')  
 
-            user_obj = User.objects.filter(username=username) 
+            user_exist = User.objects.filter(username=username)
+             
             
-            if not user_obj.exists():
+            if not user_exist.exists():
                 messages.warning(request, 'Account not found')
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   
           
-            user_obj = authenticate(request, username=username, password=password)
-
+            user_obj = authenticate(request, username=username, password=password)  
+           
+           
             logger.info(f"Login attempt for username: {username}")
             logger.info(f"Login attempt for password: {password}")
             logger.info(f"Login attempt for outer: {user_obj}")
