@@ -81,7 +81,7 @@ def register_action(request):
             user = form.save()
             user.set_password(form.cleaned_data['password1']) 
             user.is_active = True
-            user.is_staff = True
+            user.is_staff = True 
             user.save()
             messages.success(request, 'Account created successfully!')
             return redirect('login_view')  # Redirect to the login page after successful registration
@@ -89,8 +89,8 @@ def register_action(request):
             # Display form errors
             for field, errors in form.errors.items():
                 for error in errors:                     
-                    # messages.warning(request, f"{field.capitalize()}: {error}")   
-                    messages.warning(request, f"{error}")   
+                    messages.warning(request, f"{field.capitalize()}: {error}")   
+                    # messages.warning(request, f"{error}")   
 
     return render(request, 'register.html')
  
@@ -199,6 +199,23 @@ def profile_view(request):
 
         # Render the profile template with user details
         return render(request, 'profile.html', context)
+    else:
+        # Handle the case where the user is not authenticated
+        return render(request, '404.html')
+        
+def user_view(request):
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Retrieve all users from the auth_user table
+        all_users = User.objects.all()
+
+        # Pass the list of users to the template
+        context = {
+            'all_users': all_users,
+        }
+
+        # Render the template with the list of users
+        return render(request, 'tables.html', context)
     else:
         # Handle the case where the user is not authenticated
         return render(request, '404.html')

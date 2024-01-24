@@ -41,10 +41,17 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{% url 'dashboard' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            {% if request.user.username == 'admin' %} 
+            <li class="nav-item active"> 
+                <a class="nav-link" href="{% url 'users' %}">
+                    <i class="fas fa-fw fas fa-fw fa-table"></i>
+                    <span>Users</span></a>
+            </li>
+            {% endif %}
 
             <!-- Divider -->
             <!-- <hr class="sidebar-divider"> -->
